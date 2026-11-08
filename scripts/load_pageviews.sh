@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
-# Bulk load TSV hasil prepare_pageviews.py ke tabel HBase 'wiki_pageviews'.
+# Bulk load TSV hasil prepare_pageviews.py ke tabel HBase 'wiki_pageviews_hourly'.
 # 1) salin TSV ke HDFS  2) ImportTsv menulis HFile  3) completebulkload memindahkan HFile ke region
 set -euo pipefail
-LOCAL_TSV=${1:-/home/pi/pageviews/tsv_fixed}
+HERE=$(cd "$(dirname "$0")" && pwd)
+source "$HERE/../env.sh"
+LOCAL_TSV=${1:-$HERE/../data/tsv}
 TABLE=wiki_pageviews_hourly
-HDFS_IN=/user/pi/pageviews/tsv
-HDFS_HFILE=/user/pi/pageviews/hfiles
-export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-arm64
-HDFS=/opt/hadoop/bin/hdfs
-HBASE=/opt/hbase/bin/hbase
+HDFS_IN=/user/$(id -un)/pageviews/tsv
+HDFS_HFILE=/user/$(id -un)/pageviews/hfiles
+HDFS=$HADOOP_HOME/bin/hdfs
+HBASE=$HBASE_HOME/bin/hbase
 
 $HDFS dfs -rm -r -f -skipTrash "$HDFS_IN"
 $HDFS dfs -mkdir -p "$HDFS_IN"

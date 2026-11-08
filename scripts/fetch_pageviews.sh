@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Unduh dump pageview per jam untuk rentang tanggal, saring id/id.m, dan tulis TSV per jam.
-# Pemakaian: ./fetch_pageviews.sh 2026-10-25 2026-10-31 /home/pi/pageviews/tsv
+# Pemakaian: ./fetch_pageviews.sh 2026-10-25 2026-10-31 ./data/tsv
 # (menghasilkan row key jam 2026102500..2026103123, dari berkas ...20261025-010000 s.d. ...20261101-000000)
 set -euo pipefail
 START=$1; END=$2; OUT=$3

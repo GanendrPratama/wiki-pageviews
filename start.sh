@@ -15,11 +15,17 @@ done
 running HQuorumPeer  || "$HBASE_HOME/bin/hbase-daemon.sh" start zookeeper
 running HMaster      || "$HBASE_HOME/bin/hbase-daemon.sh" start master
 running HRegionServer || "$HBASE_HOME/bin/hbase-daemon.sh" start regionserver
+# Poll the master's JMX endpoint (cheap) instead of launching hbase shell (slow on a Pi).
+# Gives up after ~3 minutes, or right away if the master or regionserver process dies.
 echo "Waiting for HBase master..."
+jmx='http://localhost:16010/jmx?qry=Hadoop:service=HBase,name=Master,sub=Server'
 for _ in $(seq 60); do
-  if echo "status" | "$HBASE_HOME/bin/hbase" shell -n 2>/dev/null | grep -q '1 active master'; then
+  if curl -sf "$jmx" | grep -Eq '"numRegionServers" *: *[1-9]'; then
     "$JAVA_HOME/bin/jps"; echo "HBase is up. Web UI: http://localhost:16010"; exit 0
   fi
-  sleep 5
+  for p in HMaster HRegionServer; do
+    running "$p" || { echo "$p died; check $HBASE_HOME/logs" >&2; exit 1; }
+  done
+  sleep 3
 done
-echo "HBase did not come up; check $HBASE_HOME/logs" >&2; exit 1
+echo "HBase did not come up within 3 minutes; check $HBASE_HOME/logs" >&2; exit 1

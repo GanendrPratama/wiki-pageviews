@@ -30,18 +30,20 @@ dl() { # $1 = path under the Apache dist tree
     || curl -fL --retry 3 -o "$REPO/downloads/$f.part" "https://archive.apache.org/dist/$1"
   mv "$REPO/downloads/$f.part" "$REPO/downloads/$f"
 }
-sudo mkdir -p "$INSTALL_DIR"
+# Use sudo only when INSTALL_DIR is not writable (e.g. /opt); a home folder stays user-owned.
+mkdir -p "$INSTALL_DIR" 2>/dev/null || sudo mkdir -p "$INSTALL_DIR"
+maybe_sudo() { if [[ -w $INSTALL_DIR ]]; then "$@"; else sudo "$@"; fi; }
 if [[ ! -d $INSTALL_DIR/hadoop-$HADOOP_VERSION ]]; then
   dl "hadoop/common/hadoop-$HADOOP_VERSION/$hadoop_tar"
-  sudo tar -xzf "$REPO/downloads/$hadoop_tar" -C "$INSTALL_DIR"
+  maybe_sudo tar -xzf "$REPO/downloads/$hadoop_tar" -C "$INSTALL_DIR"
 fi
 if [[ ! -d $INSTALL_DIR/hbase-$HBASE_VERSION-hadoop3 ]]; then
   dl "hbase/$HBASE_VERSION/$hbase_tar"
-  sudo tar -xzf "$REPO/downloads/$hbase_tar" -C "$INSTALL_DIR"
+  maybe_sudo tar -xzf "$REPO/downloads/$hbase_tar" -C "$INSTALL_DIR"
 fi
-sudo ln -sfn "$INSTALL_DIR/hadoop-$HADOOP_VERSION" "$HADOOP_HOME"
-sudo ln -sfn "$INSTALL_DIR/hbase-$HBASE_VERSION-hadoop3" "$HBASE_HOME"
-sudo chown -R "$(id -un):$(id -gn)" "$INSTALL_DIR/hadoop-$HADOOP_VERSION" "$INSTALL_DIR/hbase-$HBASE_VERSION-hadoop3"
+maybe_sudo ln -sfn "$INSTALL_DIR/hadoop-$HADOOP_VERSION" "$HADOOP_HOME"
+maybe_sudo ln -sfn "$INSTALL_DIR/hbase-$HBASE_VERSION-hadoop3" "$HBASE_HOME"
+maybe_sudo chown -R "$(id -un):$(id -gn)" "$INSTALL_DIR/hadoop-$HADOOP_VERSION" "$INSTALL_DIR/hbase-$HBASE_VERSION-hadoop3"
 
 # 3) Configuration
 sed "s|__HADOOP_HOME__|$HADOOP_HOME|g" "$REPO/config/hadoop/core-site.xml" > "$HADOOP_HOME/etc/hadoop/core-site.xml"

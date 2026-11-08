@@ -8,7 +8,7 @@ START=${1:-2026-10-25}; END=${2:-2026-10-31}
 TSV=$REPO/data/tsv
 
 "$REPO/scripts/fetch_pageviews.sh" "$START" "$END" "$TSV"
-if echo "exists 'wiki_pageviews_hourly'" | hbase shell -n 2>/dev/null | grep -q 'does exist'; then
+if echo "exists 'wiki_pageviews_hourly'" | hbase shell -n 2>/dev/null | grep 'does exist' > /dev/null; then
   echo "Table exists; dropping it to reload"
   printf "disable 'wiki_pageviews_hourly'\ndrop 'wiki_pageviews_hourly'\n" | hbase shell -n
 fi

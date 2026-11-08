@@ -17,11 +17,11 @@ $HDFS dfs -put -f "$LOCAL_TSV"/*.tsv "$HDFS_IN"/
 $HDFS dfs -rm -r -f -skipTrash "$HDFS_HFILE"
 
 time $HBASE org.apache.hadoop.hbase.mapreduce.ImportTsv \
-  -Dfs.defaultFS=hdfs://localhost:9000 \
+  -Dfs.defaultFS=hdfs://altf:9000 \
   -Dmapreduce.framework.name=local \
   -Dimporttsv.separator=$'\t' \
   -Dimporttsv.columns=HBASE_ROW_KEY,pv:desktop,pv:mobile,pv:total \
   -Dimporttsv.bulk.output="$HDFS_HFILE" \
   "$TABLE" "$HDFS_IN"
 
-time $HBASE completebulkload -Dfs.defaultFS=hdfs://localhost:9000 "$HDFS_HFILE" "$TABLE"
+time $HBASE completebulkload -Dfs.defaultFS=hdfs://altf:9000 "$HDFS_HFILE" "$TABLE"

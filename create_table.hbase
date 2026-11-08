@@ -1,0 +1,5 @@
+# Tabel riwayat pageview per jam Wikipedia bahasa Indonesia
+# Row key : <judul_ternormalisasi>#<YYYYMMDDHH>
+# CF      : pv  -> pv:desktop, pv:mobile, pv:total
+create 'wiki_pageviews_hourly', {NAME => 'pv', VERSIONS => 1, COMPRESSION => 'GZ', BLOOMFILTER => 'ROW', DATA_BLOCK_ENCODING => 'FAST_DIFF'}, SPLITS => ['d', 'k', 'p', 't']
+describe 'wiki_pageviews_hourly'

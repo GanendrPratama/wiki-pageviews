@@ -1,0 +1,221 @@
+hbase:001:0> # Pertanyaan 1: berapa kunjungan per jam artikel X pada tanggal tertentu?
+hbase:002:0> #   - satu jam  -> get (lookup per key)
+hbase:003:0> #   - satu hari -> scan prefiks <judul>#<YYYYMMDD> (24 baris berurutan)
+hbase:004:0> get 'wiki_pageviews_hourly', 'halloween#2026103111'
+COLUMN  CELL
+ pv:desktop timestamp=2026-11-01T23:02:26.964, value=15
+ pv:mobile timestamp=2026-11-01T23:02:26.964, value=110
+ pv:total timestamp=2026-11-01T23:02:26.964, value=125
+1 row(s)
+Took 1.7961 seconds
+hbase:005:0> scan 'wiki_pageviews_hourly', {STARTROW => 'halloween#20261031', STOPROW => 'halloween#20261032', COLUMNS => ['pv:total']}
+ROW  COLUMN+CELL
+ halloween#2026103100 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=38
+ halloween#2026103101 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=51
+ halloween#2026103102 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=60
+ halloween#2026103103 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=78
+ halloween#2026103104 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=52
+ halloween#2026103105 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=58
+ halloween#2026103106 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=53
+ halloween#2026103107 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=50
+ halloween#2026103108 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=66
+ halloween#2026103109 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=63
+ halloween#2026103110 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=69
+ halloween#2026103111 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=125
+ halloween#2026103112 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=118
+ halloween#2026103113 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=101
+ halloween#2026103114 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=115
+ halloween#2026103115 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=108
+ halloween#2026103116 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=61
+ halloween#2026103117 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=51
+ halloween#2026103118 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=32
+ halloween#2026103119 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=14
+ halloween#2026103120 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=11
+ halloween#2026103121 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=20
+ halloween#2026103122 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=20
+ halloween#2026103123 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=32
+24 row(s)
+Took 0.2436 seconds
+hbase:006:0> 
+hbase:007:0> # Pertanyaan 2: tren kunjungan artikel X selama tujuh hari terakhir (scan rentang sempit)
+hbase:008:0> scan 'wiki_pageviews_hourly', {STARTROW => 'halloween#2026102500', STOPROW => 'halloween#2026110100', COLUMNS => ['pv:total']}
+ROW  COLUMN+CELL
+ halloween#2026102500 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=15
+ halloween#2026102501 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=15
+ halloween#2026102502 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=17
+ halloween#2026102503 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=11
+ halloween#2026102504 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=11
+ halloween#2026102505 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=10
+ halloween#2026102506 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=6
+ halloween#2026102507 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=8
+ halloween#2026102508 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=15
+ halloween#2026102509 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=9
+ halloween#2026102510 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=7
+ halloween#2026102511 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=9
+ halloween#2026102512 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=12
+ halloween#2026102513 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=10
+ halloween#2026102514 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=17
+ halloween#2026102515 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=7
+ halloween#2026102516 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=12
+ halloween#2026102517 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=6
+ halloween#2026102518 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=1
+ halloween#2026102519 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=1
+ halloween#2026102520 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=2
+ halloween#2026102521 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=1
+ halloween#2026102523 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=4
+ halloween#2026102600 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=6
+ halloween#2026102601 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=9
+ halloween#2026102602 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=15
+ halloween#2026102603 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=14
+ halloween#2026102604 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=12
+ halloween#2026102605 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=9
+ halloween#2026102606 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=13
+ halloween#2026102607 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=10
+ halloween#2026102608 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=23
+ halloween#2026102609 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=10
+ halloween#2026102610 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=15
+ halloween#2026102611 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=12
+ halloween#2026102612 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=15
+ halloween#2026102613 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=11
+ halloween#2026102614 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=16
+ halloween#2026102615 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=10
+ halloween#2026102616 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=6
+ halloween#2026102617 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=4
+ halloween#2026102618 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=7
+ halloween#2026102619 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=1
+ halloween#2026102620 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=5
+ halloween#2026102621 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=5
+ halloween#2026102622 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=5
+ halloween#2026102623 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=8
+ halloween#2026102700 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=4
+ halloween#2026102701 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=9
+ halloween#2026102702 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=12
+ halloween#2026102703 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=12
+ halloween#2026102704 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=14
+ halloween#2026102705 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=18
+ halloween#2026102706 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=17
+ halloween#2026102707 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=18
+ halloween#2026102708 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=13
+ halloween#2026102709 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=11
+ halloween#2026102710 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=10
+ halloween#2026102711 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=18
+ halloween#2026102712 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=14
+ halloween#2026102713 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=18
+ halloween#2026102714 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=10
+ halloween#2026102715 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=11
+ halloween#2026102716 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=3
+ halloween#2026102717 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=6
+ halloween#2026102718 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=3
+ halloween#2026102719 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=6
+ halloween#2026102720 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=2
+ halloween#2026102721 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=4
+ halloween#2026102722 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=5
+ halloween#2026102723 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=8
+ halloween#2026102800 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=15
+ halloween#2026102801 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=12
+ halloween#2026102802 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=14
+ halloween#2026102803 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=15
+ halloween#2026102804 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=15
+ halloween#2026102805 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=18
+ halloween#2026102806 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=15
+ halloween#2026102807 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=8
+ halloween#2026102808 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=18
+ halloween#2026102809 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=18
+ halloween#2026102810 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=13
+ halloween#2026102811 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=18
+ halloween#2026102812 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=18
+ halloween#2026102813 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=16
+ halloween#2026102814 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=14
+ halloween#2026102815 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=18
+ halloween#2026102816 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=10
+ halloween#2026102817 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=8
+ halloween#2026102818 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=6
+ halloween#2026102819 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=11
+ halloween#2026102820 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=4
+ halloween#2026102821 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=7
+ halloween#2026102822 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=5
+ halloween#2026102823 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=9
+ halloween#2026102900 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=7
+ halloween#2026102901 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=20
+ halloween#2026102902 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=19
+ halloween#2026102903 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=33
+ halloween#2026102904 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=15
+ halloween#2026102905 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=13
+ halloween#2026102906 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=20
+ halloween#2026102907 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=16
+ halloween#2026102908 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=19
+ halloween#2026102909 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=30
+ halloween#2026102910 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=18
+ halloween#2026102911 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=33
+ halloween#2026102912 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=18
+ halloween#2026102913 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=31
+ halloween#2026102914 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=27
+ halloween#2026102915 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=24
+ halloween#2026102916 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=9
+ halloween#2026102917 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=15
+ halloween#2026102918 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=16
+ halloween#2026102919 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=7
+ halloween#2026102920 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=11
+ halloween#2026102921 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=12
+ halloween#2026102922 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=9
+ halloween#2026102923 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=19
+ halloween#2026103000 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=24
+ halloween#2026103001 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=33
+ halloween#2026103002 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=34
+ halloween#2026103003 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=33
+ halloween#2026103004 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=29
+ halloween#2026103005 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=24
+ halloween#2026103006 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=41
+ halloween#2026103007 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=40
+ halloween#2026103008 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=45
+ halloween#2026103009 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=36
+ halloween#2026103010 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=54
+ halloween#2026103011 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=54
+ halloween#2026103012 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=49
+ halloween#2026103013 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=58
+ halloween#2026103014 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=45
+ halloween#2026103015 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=40
+ halloween#2026103016 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=23
+ halloween#2026103017 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=18
+ halloween#2026103018 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=14
+ halloween#2026103019 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=14
+ halloween#2026103020 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=10
+ halloween#2026103021 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=12
+ halloween#2026103022 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=24
+ halloween#2026103023 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=26
+ halloween#2026103100 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=38
+ halloween#2026103101 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=51
+ halloween#2026103102 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=60
+ halloween#2026103103 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=78
+ halloween#2026103104 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=52
+ halloween#2026103105 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=58
+ halloween#2026103106 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=53
+ halloween#2026103107 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=50
+ halloween#2026103108 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=66
+ halloween#2026103109 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=63
+ halloween#2026103110 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=69
+ halloween#2026103111 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=125
+ halloween#2026103112 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=118
+ halloween#2026103113 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=101
+ halloween#2026103114 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=115
+ halloween#2026103115 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=108
+ halloween#2026103116 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=61
+ halloween#2026103117 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=51
+ halloween#2026103118 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=32
+ halloween#2026103119 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=14
+ halloween#2026103120 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=11
+ halloween#2026103121 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=20
+ halloween#2026103122 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=20
+ halloween#2026103123 column=pv:total, timestamp=2026-11-01T23:02:26.964, value=32
+167 row(s)
+Took 1.5834 seconds
+hbase:009:0> 
+hbase:010:0> # Pertanyaan 3: kunjungan desktop dan mobile artikel X pada jam tertentu (get dengan kolom tertentu)
+hbase:011:0> get 'wiki_pageviews_hourly', 'halloween#2026103111', {COLUMNS => ['pv:desktop', 'pv:mobile']}
+COLUMN  CELL
+ pv:desktop timestamp=2026-11-01T23:02:26.964, value=15
+ pv:mobile timestamp=2026-11-01T23:02:26.964, value=110
+1 row(s)
+Took 0.0353 seconds
+hbase:012:0> 
+hbase:001:0> 

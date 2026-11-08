@@ -1,0 +1,11 @@
+# Pertanyaan 1: berapa kunjungan per jam artikel X pada tanggal tertentu?
+#   - satu jam  -> get (lookup per key)
+#   - satu hari -> scan prefiks <judul>#<YYYYMMDD> (24 baris berurutan)
+get 'wiki_pageviews_hourly', 'halloween#2026103111'
+scan 'wiki_pageviews_hourly', {STARTROW => 'halloween#20261031', STOPROW => 'halloween#20261032', COLUMNS => ['pv:total']}
+
+# Pertanyaan 2: tren kunjungan artikel X selama tujuh hari terakhir (scan rentang sempit)
+scan 'wiki_pageviews_hourly', {STARTROW => 'halloween#2026102500', STOPROW => 'halloween#2026110100', COLUMNS => ['pv:total']}
+
+# Pertanyaan 3: kunjungan desktop dan mobile artikel X pada jam tertentu (get dengan kolom tertentu)
+get 'wiki_pageviews_hourly', 'halloween#2026103111', {COLUMNS => ['pv:desktop', 'pv:mobile']}

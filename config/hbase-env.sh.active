@@ -1,0 +1,4 @@
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-arm64
+export HBASE_MANAGES_ZK=true
+export HBASE_DISABLE_HADOOP_CLASSPATH_LOOKUP=true
+export HBASE_HEAPSIZE=1G

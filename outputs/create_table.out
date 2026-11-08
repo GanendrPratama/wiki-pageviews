@@ -1,0 +1,18 @@
+hbase:001:0> # Tabel riwayat pageview per jam Wikipedia bahasa Indonesia
+hbase:002:0> # Row key : <judul_ternormalisasi>#<YYYYMMDDHH>
+hbase:003:0> # CF      : pv  -> pv:desktop, pv:mobile, pv:total
+hbase:004:0> create 'wiki_pageviews_hourly', {NAME => 'pv', VERSIONS => 1, COMPRESSION => 'GZ', BLOOMFILTER => 'ROW', DATA_BLOCK_ENCODING => 'FAST_DIFF'}, SPLITS => ['d', 'k', 'p', 't']
+Created table wiki_pageviews_hourly
+Took 3.9868 seconds
+=> Hbase::Table - wiki_pageviews_hourly
+hbase:005:0> describe 'wiki_pageviews_hourly'
+Table wiki_pageviews_hourly is ENABLED
+wiki_pageviews_hourly, {TABLE_ATTRIBUTES => {METADATA => {'hbase.store.file-tracker.impl' => 'DEFAULT'}}}
+COLUMN FAMILIES DESCRIPTION
+{NAME => 'pv', BLOOMFILTER => 'ROW', INDEX_BLOCK_ENCODING => 'NONE', IN_MEMORY => 'false', VERSIONS => '1', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'FAST_DIFF', COMPRESSION => 'GZ', TTL => 'FOREVER', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536 B (64KB)', REPLICATION_SCOPE => '0'}
+
+1 row(s)
+Quota is disabled
+Took 0.3171 seconds
+hbase:006:0> 
+hbase:001:0> 

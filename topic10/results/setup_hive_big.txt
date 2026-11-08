@@ -1,0 +1,49 @@
+No rows affected (0.403 seconds)
+No rows affected (0.101 seconds)
+No rows affected (0.1 seconds)
+No rows affected (0.467 seconds)
+No rows affected (19.124 seconds)
+1 row selected (72.687 seconds)
+|    _c0    |
+| 17152821  |
+No rows affected (0.118 seconds)
+17,152,821 rows affected (508.283 seconds)
+|    _c0    |
+| 17152821  |
+1 row selected (11.543 seconds)
+No rows affected (0.165 seconds)
+No rows affected (0.428 seconds)
+No rows affected (0.042 seconds)
+17,152,821 rows affected (682.056 seconds)
+|    partition    |
+| tgl=2026-10-11  |
+| tgl=2026-10-12  |
+| tgl=2026-10-13  |
+| tgl=2026-10-14  |
+| tgl=2026-10-15  |
+| tgl=2026-10-16  |
+| tgl=2026-10-17  |
+| tgl=2026-10-18  |
+| tgl=2026-10-19  |
+| tgl=2026-10-20  |
+| tgl=2026-10-21  |
+| tgl=2026-10-22  |
+| tgl=2026-10-23  |
+| tgl=2026-10-24  |
+| tgl=2026-10-25  |
+| tgl=2026-10-26  |
+| tgl=2026-10-27  |
+| tgl=2026-10-28  |
+| tgl=2026-10-29  |
+| tgl=2026-10-30  |
+| tgl=2026-10-31  |
+21 rows selected (0.528 seconds)
+|      tab_name       |
+| jam_ref             |
+| pageviews_part      |
+| pageviews_part_big  |
+| pageviews_pq        |
+| pageviews_pq_big    |
+| pageviews_txt       |
+| pageviews_txt_big   |
+7 rows selected (0.29 seconds)

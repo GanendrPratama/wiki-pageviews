@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" font-family="Noto Sans, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#999"/></marker>
+  </defs>
+  <rect width="1400" height="760" fill="#fff"/>
+  <text x="700" y="40" text-anchor="middle" font-size="26" font-weight="700" fill="#222">Arsitektur v0.2: Riwayat Kunjungan per Jam Wikipedia Bahasa Indonesia</text>
+  <text x="700" y="68" text-anchor="middle" font-size="16" fill="#555">Garis penuh = sudah berjalan · garis putus = belum dibuat · semua komponen berjalan di Raspberry Pi 4 (8 GB)</text>
+
+  <!-- layer labels -->
+  <g font-size="15" font-weight="700" fill="#666">
+    <text x="130" y="110" text-anchor="middle">SUMBER</text>
+    <text x="400" y="110" text-anchor="middle">INGESTION</text>
+    <text x="700" y="110" text-anchor="middle">STORAGE (Topic 9)</text>
+    <text x="1000" y="110" text-anchor="middle">PROCESSING (Topic 10)</text>
+    <text x="1270" y="110" text-anchor="middle">SERVING</text>
+  </g>
+  <rect x="845" y="125" width="310" height="560" rx="14" fill="#eef5ff" stroke="#3b78d8" stroke-width="2"/>
+
+  <!-- source -->
+  <rect x="30" y="250" width="200" height="110" rx="10" fill="#f5f5f5" stroke="#333" stroke-width="2"/>
+  <text x="130" y="285" text-anchor="middle" font-size="17" font-weight="700">Wikimedia dumps</text>
+  <text x="130" y="310" text-anchor="middle" font-size="14">pageviews-*.gz per jam</text>
+  <text x="130" y="332" text-anchor="middle" font-size="14">proyek id + id.m</text>
+
+  <!-- ingestion -->
+  <rect x="300" y="250" width="200" height="110" rx="10" fill="#f5f5f5" stroke="#333" stroke-width="2"/>
+  <text x="400" y="282" text-anchor="middle" font-size="16" font-weight="700">fetch_pageviews.sh</text>
+  <text x="400" y="306" text-anchor="middle" font-size="16" font-weight="700">prepare_pageviews.py</text>
+  <text x="400" y="332" text-anchor="middle" font-size="14">filter, normalisasi judul, TSV</text>
+  <rect x="300" y="420" width="200" height="80" rx="10" fill="#fff" stroke="#999" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="400" y="452" text-anchor="middle" font-size="15" fill="#777">Penjadwal per jam</text>
+  <text x="400" y="475" text-anchor="middle" font-size="14" fill="#777">(cron / Kafka, Topic 11)</text>
+
+  <!-- storage -->
+  <rect x="590" y="160" width="220" height="130" rx="10" fill="#fff4e5" stroke="#e69138" stroke-width="2"/>
+  <text x="700" y="192" text-anchor="middle" font-size="17" font-weight="700">HBase</text>
+  <text x="700" y="216" text-anchor="middle" font-size="14">wiki_pageviews_hourly</text>
+  <text x="700" y="238" text-anchor="middle" font-size="14">key judul#YYYYMMDDHH</text>
+  <text x="700" y="260" text-anchor="middle" font-size="14">lookup 1 artikel (get/scan)</text>
+  <rect x="590" y="370" width="220" height="150" rx="10" fill="#fff4e5" stroke="#e69138" stroke-width="2"/>
+  <text x="700" y="402" text-anchor="middle" font-size="17" font-weight="700">Parquet di disk/HDFS</text>
+  <text x="700" y="426" text-anchor="middle" font-size="14">pageviews, berpartisi tgl</text>
+  <text x="700" y="448" text-anchor="middle" font-size="14">(satu folder per tanggal)</text>
+  <text x="700" y="470" text-anchor="middle" font-size="14">+ jam_ref (24 baris)</text>
+  <text x="700" y="496" text-anchor="middle" font-size="13" fill="#555">5,7 jt baris / minggu, 140 MB</text>
+
+  <!-- processing -->
+  <rect x="870" y="290" width="260" height="140" rx="10" fill="#d9ead3" stroke="#38761d" stroke-width="3"/>
+  <text x="1000" y="322" text-anchor="middle" font-size="18" font-weight="700">Spark SQL (dipilih)</text>
+  <text x="1000" y="346" text-anchor="middle" font-size="14">PySpark local[*], driver 3 GB</text>
+  <text x="1000" y="368" text-anchor="middle" font-size="14">Q1 top artikel per hari</text>
+  <text x="1000" y="390" text-anchor="middle" font-size="14">Q2 tren per periode WIB</text>
+  <text x="1000" y="412" text-anchor="middle" font-size="14">Q3 ringkasan harian</text>
+  <rect x="870" y="150" width="260" height="110" rx="10" fill="#fff" stroke="#888" stroke-width="2"/>
+  <text x="1000" y="180" text-anchor="middle" font-size="17" font-weight="700" fill="#555">Hive 4.2.1 + Tez</text>
+  <text x="1000" y="204" text-anchor="middle" font-size="14" fill="#555">Docker, Beeline</text>
+  <text x="1000" y="226" text-anchor="middle" font-size="14" fill="#555">pembanding, tidak dipakai</text>
+  <text x="1000" y="246" text-anchor="middle" font-size="14" fill="#555">di produksi</text>
+  <rect x="870" y="600" width="260" height="70" rx="10" fill="#d9ead3" stroke="#38761d" stroke-width="2"/>
+  <text x="1000" y="630" text-anchor="middle" font-size="16" font-weight="700">Tabel hasil (Parquet)</text>
+  <text x="1000" y="652" text-anchor="middle" font-size="14">trending_harian, tren_periode</text>
+
+  <!-- serving -->
+  <rect x="1190" y="250" width="180" height="100" rx="10" fill="#fff" stroke="#999" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="1280" y="290" text-anchor="middle" font-size="16" fill="#777">Dashboard</text>
+  <text x="1280" y="314" text-anchor="middle" font-size="14" fill="#777">artikel trending</text>
+  <rect x="1190" y="400" width="180" height="100" rx="10" fill="#fff" stroke="#999" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="1280" y="440" text-anchor="middle" font-size="16" fill="#777">Notifikasi</text>
+  <text x="1280" y="464" text-anchor="middle" font-size="14" fill="#777">lonjakan kunjungan</text>
+
+  <!-- arrows -->
+  <g stroke="#333" stroke-width="2.2" fill="none" marker-end="url(#a)">
+    <path d="M230,305 L298,305"/>
+    <path d="M500,285 L588,230"/>
+    <path d="M500,330 L588,430"/>
+    <path d="M810,440 L868,370"/>
+    <path d="M812,400 L868,225"/>
+    <path d="M1000,430 L1000,598"/>
+  </g>
+  <g font-size="13" fill="#222">
+    <text x="264" y="296" text-anchor="middle">unduh</text>
+    <text x="508" y="218">ImportTsv</text>
+    <text x="508" y="234">bulk load</text>
+    <text x="548" y="330">ekspor CSV</text>
+    <text x="548" y="346">→ Parquet</text>
+    <text x="700" y="545" text-anchor="middle">query SQL dari Spark dan Hive</text>
+    <text x="1010" y="585">tulis hasil</text>
+  </g>
+  <g stroke="#999" stroke-width="2" fill="none" stroke-dasharray="8 6" marker-end="url(#ag)">
+    <path d="M400,418 L400,362"/>
+    <path d="M1130,620 L1188,330"/>
+    <path d="M1130,640 L1188,460"/>
+    
+  </g>
+  <g font-size="13" fill="#888">
+    
+    <text x="1160" y="585">baca hasil</text>
+  </g>
+</svg>

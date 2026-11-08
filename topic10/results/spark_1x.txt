@@ -1,0 +1,7 @@
+Tulis Parquet: 122.9 detik
+Data: 1x | Spark 4.3.0
+Q1 agregasi      pageviews_txt          22.08   21.25   20.19 | median   21.25 detik
+Q1 agregasi      pageviews_pq            4.46    4.44    3.58 | median    4.44 detik
+Q2 join          pageviews_pq            6.75    5.38    4.85 | median    5.38 detik
+Q3 partisi       pageviews_part          0.58    0.44    0.43 | median    0.44 detik
+Q3 non-partisi   pageviews_pq            0.64    0.60    1.22 | median    0.64 detik

@@ -6,6 +6,10 @@ pseudo-distributed on Hadoop 3.5.0 HDFS with HBase-managed ZooKeeper (originally
 Table `wiki_pageviews_hourly`, row key `<normalized_title>#<YYYYMMDDHH>`,
 column family `pv` (`desktop`, `mobile`, `total`), 5,717,607 rows for the full week.
 
+## Topic 10: processing layer
+
+Hive vs Spark SQL on the same data, with step-by-step instructions, results and screenshots: see [`topic10/`](topic10/README.md).
+
 ## Recreate it
 
 Needs Debian/Ubuntu (x86_64 or aarch64), sudo, ~4 GB RAM, ~3 GB disk.

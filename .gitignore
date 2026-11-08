@@ -1,3 +1,4 @@
 data/
 downloads/
 *.part
+venv/

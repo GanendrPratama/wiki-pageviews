@@ -1,0 +1,6 @@
+Data: big | Hive (Beeline, Tez)
+Q1 agregasi      pageviews_txt_big      87.75   88.47   93.36 | median   88.47 detik
+Q1 agregasi      pageviews_pq_big       24.38   24.86   25.15 | median   24.86 detik
+Q2 join          pageviews_pq_big       77.80   82.45   85.18 | median   82.45 detik
+Q3 partisi       pageviews_part_big      2.41    3.53    3.90 | median    3.53 detik
+Q3 non-partisi   pageviews_pq_big        7.24    6.74    7.86 | median    7.24 detik

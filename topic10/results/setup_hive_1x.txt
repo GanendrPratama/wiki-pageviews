@@ -1,0 +1,61 @@
+No rows affected (1.892 seconds)
+No rows affected (0.112 seconds)
+No rows affected (0.262 seconds)
+No rows affected (1.554 seconds)
+No rows affected (4.623 seconds)
+|   _c0    |
+| 5717607  |
+1 row selected (46.743 seconds)
+No rows affected (0.41 seconds)
+5,717,607 rows affected (203.151 seconds)
+|   _c0    |
+| 5717607  |
+1 row selected (5.445 seconds)
+No rows affected (0.131 seconds)
+No rows affected (0.415 seconds)
+No rows affected (0.039 seconds)
+5,717,607 rows affected (245.375 seconds)
+|    partition    |
+| tgl=2026-10-25  |
+| tgl=2026-10-26  |
+| tgl=2026-10-27  |
+| tgl=2026-10-28  |
+| tgl=2026-10-29  |
+| tgl=2026-10-30  |
+| tgl=2026-10-31  |
+7 rows selected (0.603 seconds)
+No rows affected (0.072 seconds)
+No rows affected (0.357 seconds)
+No rows affected (0.857 seconds)
+| jam_ref.jam_utc  | jam_ref.jam_wib  | jam_ref.periode  |
+| 0                | 7                | Pagi             |
+| 1                | 8                | Pagi             |
+| 2                | 9                | Pagi             |
+| 3                | 10               | Pagi             |
+| 4                | 11               | Siang            |
+| 5                | 12               | Siang            |
+| 6                | 13               | Siang            |
+| 7                | 14               | Siang            |
+| 8                | 15               | Sore             |
+| 9                | 16               | Sore             |
+| 10               | 17               | Sore             |
+| 11               | 18               | Malam            |
+| 12               | 19               | Malam            |
+| 13               | 20               | Malam            |
+| 14               | 21               | Malam            |
+| 15               | 22               | Malam            |
+| 16               | 23               | Malam            |
+| 17               | 0                | Dini hari        |
+| 18               | 1                | Dini hari        |
+| 19               | 2                | Dini hari        |
+| 20               | 3                | Dini hari        |
+| 21               | 4                | Dini hari        |
+| 22               | 5                | Pagi             |
+| 23               | 6                | Pagi             |
+24 rows selected (1.261 seconds)
+|    tab_name     |
+| jam_ref         |
+| pageviews_part  |
+| pageviews_pq    |
+| pageviews_txt   |
+4 rows selected (0.692 seconds)
